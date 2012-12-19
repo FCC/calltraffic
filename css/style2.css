@@ -1,0 +1,178 @@
+@charset "UTF-8";		
+	div.interactive_subheader {
+		width: 988px;
+		margin: 0 -10px 0 -11px;
+		clear: both;
+		background: #e8eef2 url(../img/map_slider_bg.jpg) left top no-repeat;
+	}
+	
+		div.interactive_subheader h2,
+		div.interactive_subheader h4 {
+			margin: 0 33px 0 28px;
+		}
+	
+	div.interactive_timeline {
+		height: 51px;
+		margin-top:15px;
+	}
+	
+	
+	
+		div.interactive_timeline div#play_btn {
+			float: left;
+			margin-left: 27px;
+			margin-top: 9px;
+			width: 72px;
+			height: 35px;
+			background: url(../img/map_play_btn.gif) left top no-repeat;
+		}
+		
+			div.interactive_timeline div#play_btn:hover {
+				cursor: pointer;
+				background-position: 0 -35px;
+			}
+			
+			div.interactive_timeline div#play_btn:active {
+				background-position: 0 -70px;
+			}
+		
+		div.interactive_timeline div.scrubber {
+			float: right;
+			position: relative;
+			margin-top: 8px;
+			padding: 0 0 0 2px;
+			margin-right: 16px;
+			width: 844px;
+			background: url(../img/map_slider.jpg) right 3px no-repeat;
+		}
+		
+			img.ui-draggable {
+				cursor: url(https://mail.google.com/mail/images/2/openhand.cur), default !important;
+			}
+			
+				body.dragging_element img.ui-draggable {
+					cursor: url(https://mail.google.com/mail/images/2/closedhand.cur), default !important;
+				}
+		
+		div.interactive_subheader ul {
+			list-style-type: none;
+			list-style-position: outside;
+			margin: 0;
+			padding: 0;
+		}
+		
+			div.interactive_subheader ul li {
+				float: right;
+				padding: 0;
+				width: 32px;
+				padding: 21px 34px 0;
+				font-size: 11px;
+				font-family: Arial, Sans-Serif;
+				color: #000;
+			}
+			
+				div.interactive_subheader ul li.first {
+					padding-right: 7px;
+				}
+				
+				div.interactive_subheader ul li.last {
+					padding-left: 0;
+				}
+				
+				div.interactive_subheader ul li.active {
+					font-weight: bold;
+				}
+				
+				div.interactive_subheader ul li.valid {
+					color: #1a1a1a;
+				}
+				
+				div.interactive_subheader ul li.valid:hover {
+					cursor: pointer;
+					text-decoration: underline;
+				}
+			
+			div.interactive_timeline ul li {
+				color: #a5aaaf;
+			}
+			
+			img#scrubber_knob {
+				position: absolute;
+				top: 0;
+				left: 7px;
+				display: none;
+			}
+			
+.bar rect {
+  fill: steelblue;
+}
+
+.bar:hover rect {
+  fill: brown;
+}
+
+.value {
+  fill: white;
+}
+
+.x.axis line {
+  stroke: #fff;
+  stroke-opacity: .8;
+}
+
+.y.axis path {
+  stroke: black;
+}
+
+
+svg {
+  font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.axis path {
+  stroke: none;
+}
+
+#chart{
+	margin-top:20px;
+}
+
+#regionChart{
+	float:left
+}
+#countryChart{
+	float:right;
+	width:350px;
+}
+
+.title {
+  font-size: 24px;
+  fill: #aaa;
+  margin-bottom:5px;
+}
+
+.title1 {
+  font-size: 16px;
+  fill: #aaa;
+}
+
+
+
+
+
+	
+
+
+	
+			
+			
