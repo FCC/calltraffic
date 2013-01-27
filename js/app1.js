@@ -1,7 +1,7 @@
 
 //var fjson={};
 var margin = {top: 5, right: 0, bottom: 0, left: 0};
-var  tooltip = CustomTooltip("call_tooltip", 240);
+var tooltip = CustomTooltip("call_tooltip", 240);
 var data,regionData=[];
 var currentYear = 2010, // default year
 	yearArray=[2002,2003,2004,2005,2006,2007,2008,2009,2010],
@@ -145,7 +145,6 @@ svgRevenueCountry.append("g")
 
 function redrawRegion() {
 	  yMinute.domain(regionDataMinute.map(function(d) { return d.RegionName; }));
-	  xMinute.domain([0, regionMinuteMax/10000000]);
 	  var barMinute = svgMinute.selectAll(".bar")
 	      .data(regionDataMinute, function(d) { return d.RegionName; });
 
@@ -203,7 +202,6 @@ function redrawRegion() {
 	  
 	  //for message
 	  yMessage.domain(regionDataMessage.map(function(d) { return d.RegionName; }));
-	  xMessage.domain([0, regionMessageMax/1000000]);
 	  var barMessage = svgMessage.selectAll(".bar")
 	      .data(regionDataMessage, function(d) { return d.RegionName; });
 
@@ -259,7 +257,6 @@ function redrawRegion() {
 	  
 	//for revenue
 	  yRevenue.domain(regionDataRevenue.map(function(d) { return d.RegionName; }));
-	  xRevenue.domain([0, regionRevenueMax/1000000]);
 	  var barRevenue = svgRevenue.selectAll(".bar")
 	      .data(regionDataRevenue, function(d) { return d.RegionName; });
 
@@ -317,7 +314,6 @@ function redrawRegion() {
 
 function redrawCountry() {
 	  yMinuteCountry.domain(countryDataMinute.map(function(d) { return d.CountryName; }));
-	  xMinuteCountry.domain([0, countryMinuteMax/10000000]);
 	  var barMinuteCountry = svgMinuteCountry.selectAll(".bar")
 	      .data(countryDataMinute, function(d) { return d.CountryName; });
 
@@ -373,7 +369,6 @@ function redrawCountry() {
 	  
 	  //for message
 	  yMessageCountry.domain(countryDataMessage.map(function(d) { return d.CountryName; }));
-	  xMessageCountry.domain([0, countryMessageMax/1000000]);
 	  var barMessageCountry = svgMessageCountry.selectAll(".bar")
 	      .data(countryDataMessage, function(d) { return d.CountryName; });
 
@@ -429,7 +424,6 @@ function redrawCountry() {
 	  
 	//for revenue
 	  yRevenueCountry.domain(countryDataRevenue.map(function(d) { return d.CountryName; }));
-	  xRevenueCountry.domain([0, countryRevenueMax/1000000]);
 	  var barRevenueCountry = svgRevenueCountry.selectAll(".bar")
 	      .data(countryDataRevenue, function(d) { return d.CountryName; });
 
@@ -571,16 +565,13 @@ function getCurrentYearData(cYear){
 			})			
 		}
 	})
-	regionMessageMax = regionDataMessage.sort(function(a, b) { return parseInt(b.RegionTotals.NumberOfMessages) - parseInt(a.RegionTotals.NumberOfMessages);})[0].RegionTotals.NumberOfMessages;
-	regionMinuteMax = regionDataMinute.sort(function(a, b) { return parseInt(b.RegionTotals.NumberOfMinutes) - parseInt(a.RegionTotals.NumberOfMinutes); })[0].RegionTotals.NumberOfMinutes;
-	regionRevenueMax=regionDataRevenue.sort(function(a, b) { return parseInt(b.RegionTotals.UsCarrierRevenues) - parseInt(a.RegionTotals.UsCarrierRevenues); })[0].RegionTotals.UsCarrierRevenues
+	regionDataMessage.sort(function(a, b) { return parseInt(b.RegionTotals.NumberOfMessages) - parseInt(a.RegionTotals.NumberOfMessages);});
+	regionDataMinute.sort(function(a, b) { return parseInt(b.RegionTotals.NumberOfMinutes) - parseInt(a.RegionTotals.NumberOfMinutes); });
+	regionDataRevenue.sort(function(a, b) { return parseInt(b.RegionTotals.UsCarrierRevenues) - parseInt(a.RegionTotals.UsCarrierRevenues); });
 	
 	countryDataMinute = countryDataMinute.sort(function(a,b){return parseInt(b.CountryDetail.NumberOfMinutes)-parseInt(a.CountryDetail.NumberOfMinutes);}).slice(0,10);
-	countryMinuteMax = countryDataMinute[0].CountryDetail.NumberOfMinutes;
 	countryDataMessage = countryDataMessage.sort(function(a,b){return parseInt(b.CountryDetail.NumberOfMessages)-parseInt(a.CountryDetail.NumberOfMessages);}).slice(0,10);
-	countryMessageMax = countryDataMessage[0].CountryDetail.NumberOfMessages;
 	countryDataRevenue = countryDataRevenue.sort(function(a,b){return parseInt(b.CountryDetail.UsCarrierRevenues)-parseInt(a.CountryDetail.UsCarrierRevenues);}).slice(0,10);
-	countryRevenueMax = countryDataRevenue[0].CountryDetail.UsCarrierRevenues;
 	
 	  d3.transition()
       .duration(changeYearDelay-400)
@@ -591,8 +582,40 @@ function getCurrentYearData(cYear){
       .each(redrawCountry);
 }
 
+function setAxisDomains(){
+	regionMinuteMax = 0;
+	regionMessageMax = 0;
+	regionRevenueMax = 0;
+	countryMinuteMax = 0;
+	countryMessageMax = 0;
+	countryRevenueMax = 0;
+
+	data.details.forEach(function(d){
+		d.Regions.forEach(function(r){
+			regionMinuteMax = Math.max(parseInt(r.RegionTotals.NumberOfMinutes), regionMinuteMax);
+			regionMessageMax = Math.max(parseInt(r.RegionTotals.NumberOfMessages), regionMessageMax);
+			regionRevenueMax = Math.max(parseInt(r.RegionTotals.UsCarrierRevenues), regionRevenueMax);
+			
+			r.RegionDetail.forEach(function(c){
+				countryMinuteMax = Math.max(parseInt(c.CountryDetail.NumberOfMinutes), countryMinuteMax);
+				countryMessageMax = Math.max(parseInt(c.CountryDetail.NumberOfMessages), countryMessageMax);
+				countryRevenueMax = Math.max(parseInt(c.CountryDetail.UsCarrierRevenues), countryRevenueMax);
+			})
+		}) 			
+	});
+
+	xMinute.domain([0, regionMinuteMax/10000000]); 
+	xMessage.domain([0, regionMessageMax/1000000]);
+	xRevenue.domain([0, regionRevenueMax/1000000]);
+
+	xMinuteCountry.domain([0, countryMinuteMax/10000000]);
+	xMessageCountry.domain([0, countryMessageMax/1000000]);
+	xRevenueCountry.domain([0, countryRevenueMax/1000000]);
+}	
+
 d3.json("data/trafficBilledInUS.json", function(d){
-	data =d;
+	data = d;
+	setAxisDomains()
 	getCurrentYearData(currentYear);
 	drawYears(yearArray);
 	drawTimeline(true);
