@@ -1,7 +1,6 @@
 
 //var fjson={};
 var margin = {top: 5, right: 0, bottom: 0, left: 0};
-var tooltip = CustomTooltip("call_tooltip", 240);
 var data,regionData=[];
 var currentYear = 2010, // default year
 	yearArray=[2002,2003,2004,2005,2006,2007,2008,2009,2010],
@@ -524,8 +523,6 @@ function playTimeline(){
 }
 
 function changeYear(newYear, animateOption){
-		console.log(timer);
-	
 	currentYear = newYear;
 	drawTimeline(animateOption);
 }
