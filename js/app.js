@@ -1,16 +1,14 @@
 //id:0/num of message;1:num of minutes;2:revenue;
 var xx=0.6;
 var yy = 25;
-var data,worldPath,regionPath;
-var projection,path;
+var data,worldPath,regionPath,contries,country;
 var currentRegion=null,currentid=null,currenttype=null,regions=[];
-var currentCountries=[], currentCountryFeatures={"type":"FeatureCollection","features":[]};
 var width = 1200,
     height = 460,
     widthC = 650,
     heightC = 500,
-    widthD3 = 550,
-    heightD3 = 500,
+    widthD3 = 400,
+    heightD3 = 400,
     fill = d3.scale.category20();
 var margin = {top: 5, right: 0, bottom: 0, left: 0};
 var  tooltip = CustomTooltip("call_tooltip", 240);
@@ -32,10 +30,6 @@ var vis_region = null,
 	circles_region = null,
 	circles_country=null;
 	legend_region=null;
-//	labels_region=null;
-
-	var regions_proj=[{"region":"Africa","proj":[1432.1880650994576,[100.77034358047017,147.75406871609405]]}];
-
 
 vis_region = d3.select("#visRegion").append("svg:svg")
     .attr("width", width)
@@ -55,23 +49,7 @@ vis_country = d3.select("#visCountry").append("svg:svg")
 .attr("width", widthC)
 .attr("height", heightC)
 .attr("id","bubble_country");
-//label_region=d3.select("#visRegion").selectAll("#bubble-labels").data([nodes_region])
-//	.enter()
-//	.append("div")
-//	.attr("id","label_region");
 
-//var projection = d3.geo.equirectangular()
-//		.scale(1)
-//		.translate([0, 0]),
-//	path = d3.geo.path().projection(projection);
-
-var d3mapsvg = d3.select("#d3map")
-		.append("svg")
-		.attr("width", widthD3)
-		.attr("height", heightD3) 
-		.append("g")
-//		 // .call(d3.behavior.zoom()
-//		//	.on("zoom", redraw))
 
 var d3maptitlesvg = d3.select("#orthomaptitle")
 .append("svg")
@@ -84,9 +62,6 @@ d3maptitlesvg.append("svg:text")
   .attr("text-anchor", "left")
   .text("Regional Map");
 
-var countryPaths = d3mapsvg.append("g")
-				 .attr("id", "country_path");
-
 force_region = d3.layout.force();
 force_country=d3.layout.force();
 
@@ -97,6 +72,63 @@ maxRadius = 60; // also determines collision search radius
 
 var radius_scale = d3.scale.pow().exponent(0.5)
 	.range([minRadius, maxRadius]);
+
+//map definition
+var regionsProj={"Africa":[17,12],
+        "Asia":[83,29.9],
+        "North and Central America":[-97.5,33.5],
+        "Eastern Europe":[20.79,44.22],
+        "Middle East":[33.5,32.5],
+        "Caribbean":[-72.68,18.89],
+        "Other regions":[29.73,-77.37],
+        "Oceania":[134.48, -25.74],
+        "Western Europe":[14.5,51.5],
+        "South America":[-71.53,39.05]        
+        };
+var d3mapsvg = d3.select("#orthomap")
+		.append("svg")
+		.attr("width", widthD3)
+		.attr("height", heightD3);
+var centroid = d3.geo.path()
+    .projection(function(d) { return d; })
+    .centroid;
+
+var projection = d3.geo.orthographic()
+    .translate([widthD3 / 2, heightD3 / 2])
+    .scale(200)
+    .rotate([98,-39])
+    .clipAngle(90);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var graticule = d3.geo.graticule()
+    .extent([[-180, -90], [180 - .1, 90 - .1]]);
+
+var line = d3mapsvg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+ var dragrotate = {x: 0, y: 90};
+d3mapsvg.append("circle")
+    .datum(dragrotate)
+    .attr("class", "mouse")
+    .attr("cx", widthD3 / 2)
+    .attr("cy", heightD3 / 2)
+    .attr("r", projection.scale())
+    .call(d3.behavior.drag()
+      .origin(Object)
+      .on("drag", function(d) {
+        projection.rotate([(d.x = d3.event.x) / 2, -(d.y = d3.event.y) / 2]);
+        d3mapsvg.selectAll("path").attr("d", path)
+      }));
+
+var title = d3mapsvg.append("text")
+	.attr("class", "countrytext")
+    .attr("x", widthD3 / 2)
+    .attr("y", heightD3 * 3 / 5);
+
+var rotate = d3_geo_greatArcInterpolator();
 
 function getRightScale(domainMin,domainMax){
 	radius_scale.domain([domainMin,domainMax]);
@@ -267,20 +299,12 @@ function forceRegionTick(e) {
     circles_region.each(move_towards_type(e.alpha))
     .attr("cx", function(d){return d.x})
     .attr("cy", function(d){return d.y});
-    
-//    label_region
-//    	.style("left", function(d){return  (d.x- d.dx / 2) + "px"})
-//    	.style("top", function(d) {return (d.y - d.dy / 2) + "px"})
 }; 
 
 function forceCountryTick(e) {
     circles_country.each(move_towards_center(e.alpha))
     .attr("cx", function(d){return d.x})
     .attr("cy", function(d){return d.y});
-    
-//    label_region
-//    	.style("left", function(d){return  (d.x- d.dx / 2) + "px"})
-//    	.style("top", function(d) {return (d.y - d.dy / 2) + "px"})
 }; 
 
 function create_legend(){
@@ -385,24 +409,19 @@ function show_details(data,i,element){
 			content += "<span class='name'>Payout to Foreigh Carriers: $</span><span class='value'>" + addCommas(data.payout) + "</span><br/>";
 			content += "<span class='name'>Retained Revenue: $</span><span class='value'>" + addCommas(data.retainedRevenue) + "</span><br/>";
 		}
-		highlightMap(data.country);
+		rotateToCounty(data.country);
     }
-	
-
-    //content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
 
     tooltip.showTooltip(content,d3.event)
+
 }
 
 function hide_details (data, i, element) {
     d3.select(element).attr("stroke", function(d) {return fill(d.id)});
     tooltip.hideTooltip();
-    countryPaths.selectAll("path")
-    .attr("stroke","#fff");
-    if (typeof(feature) != "undefined"){
-    	feature.attr("stroke","#fff");
-    }
-    
+     title.text("");
+    country.transition()
+        .style("fill", function(d, j) {return "#b8b8b8"; });
 }
 
 function display_title(){
@@ -478,9 +497,8 @@ function show_country(da,i,element){
 	        d.y= Math.random() * 800
 		})
 		update_bubble_country();
-		update_d3map();
-		//update3dmap();
 		display_title_country( msgType + " in " + da.region);
+		rotateToRegion(currentRegion);
 		
 		//hightlight the bubble
 		circles_region.style("fill-opacity",0.2);
@@ -489,154 +507,59 @@ function show_country(da,i,element){
 	}	
 }
 
-function update_d3map(){
-	
-	currentCountryFeatures.features=[];
-	worldPath.features.forEach(function(w){
-		w.properties.isHighlight=false;
-		currentCountries.forEach(function(c){
-			if (c == w.properties.name){
-				currentCountryFeatures.features.push(w);
-				w.properties.isHighlight=true;
-			}
-		})
-	})	
-	var countries,gmax,gmin,propertyName;
-	if (currentCountryFeatures.features.length==0){
-		$("#mapContainer").hide();
-	}
-	else{
-		$("#mapContainer").show();
-	
-		if (currentType=="minute"){
-			countries=currentCountryFeatures.features.sort(function(a,b){
-				return a.properties.NumberOfMinutes-b.properties.NumberOfMinutes;
-			});		
-			gmax=countries[countries.length-1].properties.NumberOfMinutes;
-			gmin=countries[0].properties.NumberOfMinutes;
-			propertyName="NumberOfMinutes";
-			//countries.forEach(function(d){console.log(d.properties.NumberOfMinutes)});
-		}else if (currentType=="message"){
-			countries=currentCountryFeatures.features.sort(function(a,b){
-				return a.properties.NumberOfMessages-b.properties.NumberOfMessages;
-			});		
-			gmax=countries[countries.length-1].properties.NumberOfMessages;
-			gmin=countries[0].properties.NumberOfMessages;
-			propertyName="NumberOfMessages";
-		}else if (currentType=="revenue"){
-			countries=currentCountryFeatures.features.sort(function(a,b){
-				return a.properties.UsCarrierRevenues-b.properties.UsCarrierRevenues;
-			});	
-			gmax=countries[countries.length-1].properties.UsCarrierRevenues;
-			gmin=countries[0].properties.UsCarrierRevenues;
-			propertyName="UsCarrierRevenues";
-		};
-		
-	    var cscale = d3.scale.pow().exponent(.5).domain([0, gmax])
-	         .range(["#fae893", "#756518"]);
-	
-	 projection = d3.geo.equirectangular()
-			.scale(1)
-			.translate([0, 0]);
-//	    projection = d3.geo.albers()
-//		.scale(1)
-//		.translate([0, 0]);
-	    path = d3.geo.path().projection(projection);
-		
-		       var bounds0 = d3.geo.bounds(currentCountryFeatures);
-	           var bounds = bounds0.map(projection);
-	           var xscale = xx * widthD3/Math.abs(bounds[1][0] - bounds[0][0]);
-	           var yscale = (heightD3 - yy) /
-	                        Math.abs(bounds[1][1] - bounds[0][1]);
-	           var scale = Math.min(xscale, yscale);
-	           var translate =[-bounds0[0][0], -bounds0[1][1]];
-	
-	                projection.scale(scale);
-	                projection.translate(projection([275,200]));
-//	           if (typeof(regionsProj[currentRegion]) != "undefined"){
-//	        		  projection.scale(regionsProj[currentRegion][0]);
-//	        		  projection.translate(projection(translate));
-//	        	  }
-		
-		var p = countryPaths.selectAll("path")
-					  .data(countries)
-					  .attr("d",path)
-					  .attr("fill", function(d) { return cscale(d.properties[getPropertyNameByType()]); })
-					  .attr("stroke", "#fff")
-					  	  .on("mouseover", function(d,i) {return highlightCountry(d,i,this)})
-					      .on("mouseout", function(d,i) {return unhighlightCountry(d,i,this)});
-		
-		p.enter().append("path")
-					 .attr("d", path)
-					.attr("fill", function(d) { return cscale(d.properties[getPropertyNameByType()]); })
-					.attr("stroke", "#fff")
-					  .on("mouseover", function(d,i) {return highlightCountry(d,i,this)})
-					  .on("mouseout", function(d,i) {return unhighlightCountry(d,i,this)});
+function rotateToCounty(countryName) {
+    c = worldPath.filter(function(d){return d.id.toUpperCase() == countryName.toUpperCase()})
+    if (c.length>0){
+      title.text(c[0].id);
+    	country.transition()
+        	.style("fill", function(d, j) {return d.id.toUpperCase() === c[0].id.toUpperCase() ? "red" : "#b8b8b8"; });
 
-		 p.append("svg:title")
-	      .text(function(d) { return d.properties.name; });  			  
-		p.exit().remove();
-		
-		update3dmap(worldPath,gmax);
-	
-	}	
-	
-}
+    	d3.transition()
+       	 //.delay(250)
+        	.duration(750)
+       	 .tween("rotate", function() {
+          	var point = centroid(c[0]);
+          	rotate.source(projection.rotate()).target([-point[0], -point[1]]).distance();
+          	return function(t) {
+            	projection.rotate(rotate(t));
+            	country.attr("d", path);
+           	 line.attr("d", path);
+          	};
+        })
+      //.transition()
+      //  .each("end", step);
+    }
+    else{
+    	 title.text("");
+   	 country.transition()
+        	.style("fill", function(d, j) {return "#b8b8b8"; });
+     		projection.rotate([0,0]);
+     		//rotateToRegion(currentRegion);
+    } 
+  }
 
-function highlightCountry(data,index,element){
-	if (data.properties.isHighlight){
-		d3.select(element).attr("stroke","red");
-		circles_country.filter(function(e){
-			   if(e.country==data.properties.name){
-				   return true;
-			   }
-			   else{
-				   return false;
-			   }
-			})
-			.attr("stroke","black")
-	}
-
-}
-
-function unhighlightCountry(data,index,element){
-	if (data.properties.isHighlight){
-		d3.select(element).attr("stroke","#fff");
-		circles_country.filter(function(e){
-			   if(e.country==data.properties.name){
-				   return true;
-			   }
-			   else{
-				   return false;
-			   }
-			})
-			.attr("stroke",currentFill)
-	}
-}
-
-function highlightMap(countryName){
-	countryPaths.selectAll("path").filter(function(e){
-		   if(e.properties.name==countryName){
-			   return true;
-		   }
-		   else{
-			   return false;
-		   }
-		})
-		.attr("stroke","red")
-		//.attr("stroke-width",2);
-	
-	feature.filter(function(e){
-		   if(e.properties.name==countryName){
-			   return true;
-		   }
-		   else{
-			   return false;
-		   }
-		})
-		.attr("stroke","red")
-		//.attr("stroke-width",2);
-}
+  function rotateToRegion(regionName) {
+  	var displayName="";
+  	if (typeof regionsProj[regionName] == "undefined"){
+  		regionName = "North and Central America";
+  	}
+  	else{
+  		displayName = regionName;
+  	}
+  		d3.transition()
+       //.delay(250)
+        .duration(750)
+        .tween("rotate", function() {
+          var point = regionsProj[regionName];
+          rotate.source(projection.rotate()).target([-point[0], -point[1]]).distance();
+          return function(t) {
+            projection.rotate(rotate(t));
+            country.attr("d", path);
+            line.attr("d", path);
+          };
+        })  
+        title.text(displayName);      
+    }
 
 
 function clear(){
@@ -659,47 +582,7 @@ function addCommas(nStr)
 	return x1 + x2;
 }
 
-function toggle_view(viewType){
-	if (viewType=="2dmap"){
-		$("#d3map").show();
-		$("#orthomap").hide();
-	}
-	else{
-		$("#d3map").hide();
-		$("#orthomap").show();
-	}
-}
 
-function populateWorldPath(){
-	//console.log(worldPath);
-	// allname=[];
-	// foundname=[];
-	data.Regions.forEach(function(r){
-		r.TrafficReportDetails.forEach(function(c){
-			//allname.push(c.CountryName);
-			worldPath.features.forEach(function(w){
-				if (c.CountryName==w.properties.name){
-					w.properties.NumberOfMinutes=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.NumberOfMinutes);
-					w.properties.NumberOfMessages=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.NumberOfMessages);
-					w.properties.UsCarrierRevenues=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.UsCarrierRevenues);
-					w.properties.PayoutToForeignCarriers=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.PayoutToForeignCarriers);
-					w.properties.RetainedRevenues=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.RetainedRevenues);
-					//foundname.push(c.CountryName);	
-					
-				}
-				
-			})
-		})
-
-	})
-	//console.log(allname.sort(d3.ascending));
-	//console.log(foundname.sort(d3.ascending));
-
-}
-
-function redraw(){
-	d3mapsvg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
 
 function getPropertyNameByType(){
 	var pName;
@@ -715,12 +598,84 @@ function getPropertyNameByType(){
 	return pName;
 }
 
-d3.json("data/2010.json", function(d){
-	data=d;
-	d3.json("data/world2.json",function(json){
-		worldPath=json;;
-		populateWorldPath();
-		create_nodes_region();
+queue()
+    .defer(d3.json, "data/2010.json")
+    .defer(d3.json, "data/readme-world-110m.json")
+    .await(ready);
+
+function ready(error, mydata,world) {
+	data = mydata;
+	worldPath = topojson.object(world, world.objects.countries).geometries;
+	data.Regions.forEach(function(r){
+		r.TrafficReportDetails.forEach(function(c){
+			//allname.push(c.CountryName);
+			worldPath.forEach(function(w){
+				if (c.CountryName==w.id){
+					w.NumberOfMinutes=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.NumberOfMinutes);
+					w.NumberOfMessages=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.NumberOfMessages);
+					w.UsCarrierRevenues=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.UsCarrierRevenues);
+					w.PayoutToForeignCarriers=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.PayoutToForeignCarriers);
+					w.RetainedRevenues=parseInt(c.MessageTelephoneServiceDetail.TrafficBilledInUS.RetainedRevenues);					
+				}				
+			})
+		})
+
 	})
-	
-});
+	 country = d3mapsvg.selectAll(".country")
+      .data(worldPath)
+    .enter().insert("path", ".graticule")
+      .attr("class", "country")
+      .attr("d", path);
+	create_nodes_region();
+ };
+
+//great arc interpolater, by Jason Davis
+ var d3_radians = Math.PI / 180;
+
+function d3_geo_greatArcInterpolator() {
+  var x0, y0, cy0, sy0, kx0, ky0,
+      x1, y1, cy1, sy1, kx1, ky1,
+      d,
+      k;
+
+  function interpolate(t) {
+    var B = Math.sin(t *= d) * k,
+        A = Math.sin(d - t) * k,
+        x = A * kx0 + B * kx1,
+        y = A * ky0 + B * ky1,
+        z = A * sy0 + B * sy1;
+    return [
+      Math.atan2(y, x) / d3_radians,
+      Math.atan2(z, Math.sqrt(x * x + y * y)) / d3_radians
+    ];
+  }
+
+  interpolate.distance = function() {
+    if (d == null) k = 1 / Math.sin(d = Math.acos(Math.max(-1, Math.min(1, sy0 * sy1 + cy0 * cy1 * Math.cos(x1 - x0)))));
+    return d;
+  };
+
+  interpolate.source = function(_) {
+    var cx0 = Math.cos(x0 = _[0] * d3_radians),
+        sx0 = Math.sin(x0);
+    cy0 = Math.cos(y0 = _[1] * d3_radians);
+    sy0 = Math.sin(y0);
+    kx0 = cy0 * cx0;
+    ky0 = cy0 * sx0;
+    d = null;
+    return interpolate;
+  };
+
+  interpolate.target = function(_) {
+    var cx1 = Math.cos(x1 = _[0] * d3_radians),
+        sx1 = Math.sin(x1);
+    cy1 = Math.cos(y1 = _[1] * d3_radians);
+    sy1 = Math.sin(y1);
+    kx1 = cy1 * cx1;
+    ky1 = cy1 * sx1;
+    d = null;
+    return interpolate;
+  };
+
+  return interpolate;
+}

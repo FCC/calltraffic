@@ -81,24 +81,40 @@ footer {
   stroke-width: 1.5px;
 }
 
-.graticule {
-  fill: none;
-  stroke: #fff;
-  stroke-width: .5px;
-}
 
 .graticule:nth-child(2n) {
   stroke-dasharray: 2,2;
 }
 
-.land {
-  fill: #d7c7ad;
-  stroke: #766951;
+
+.country {
+  fill: #b8b8b8;
+  stroke: #fff;
+  stroke-width: .5px;
+  stroke-linejoin: round;
 }
 
-.boundary {
+.graticule {
   fill: none;
-  stroke: #a5967e;
+  stroke: #000;
+  stroke-opacity: .3;
+  stroke-width: .5px;
 }
 
+.graticule-outline {
+  fill: none;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+circle.mouse {
+  fill: none;
+  stroke: #000;
+  pointer-events: all;
+}
+.countrytext {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-anchor: middle;
+}
 	
