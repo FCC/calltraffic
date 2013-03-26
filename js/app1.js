@@ -5,7 +5,8 @@ var data,regionData=[];
 var currentYear = 2010, // default year
 	yearArray=[2002,2003,2004,2005,2006,2007,2008,2009,2010],
 	timer = null,
-	changeYearDelay= 1200;
+	changeYearDelay= 1200
+	playYearDelay = 2400;
 var margin = {top: 20, right: 40, bottom: 10, left: 200},
 	width = 400,
 	height = 200 - margin.top - margin.bottom;
@@ -518,7 +519,7 @@ function playTimeline(){
 			//changeYear(currentYear);
 		}
 		
-		timer = window.setInterval(advanceTimelineYear, changeYearDelay);
+		timer = window.setInterval(advanceTimelineYear, playYearDelay);
 	}
 }
 
@@ -539,10 +540,14 @@ function advanceTimelineYear(){
 }
 
 function yearClickHandler(event){
-var clickedYear = this.id.slice(1,5);
-if (clickedYear != currentYear) {
-	changeYear(clickedYear, true);
-}
+	if(timer != null){
+		window.clearInterval(timer);
+		timer = null;
+	}
+	var clickedYear = this.id.slice(1,5);
+	if (clickedYear != currentYear) {
+		changeYear(clickedYear, true);
+	}
 }
 
 function getCurrentYearData(cYear){
