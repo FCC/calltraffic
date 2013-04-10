@@ -2,8 +2,8 @@
 //var fjson={};
 var margin = {top: 5, right: 0, bottom: 0, left: 0};
 var data,regionData=[];
-var currentYear = 2010, // default year
-	yearArray=[2002,2003,2004,2005,2006,2007,2008,2009,2010],
+var currentYear = 2011, // default year
+	yearArray=[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],
 	timer = null,
 	changeYearDelay= 1200
 	playYearDelay = 2400;
@@ -495,7 +495,7 @@ function drawTimeline(animateOption){
 $('#scrubber_dates').find('li').removeClass('active');
 $('#t' + currentYear).addClass('active');
 
-var newScrubberXPos = ((currentYear - 2002) * 100) + 7,
+var newScrubberXPos = ((currentYear - 2002) * 90) + 7,
 	$scrubberKnob = $('#scrubber_knob');	
 if (animateOption) {
 	$scrubberKnob.css({'display' : 'block'}).animate({'left' : newScrubberXPos}, changeYearDelay, 'linear'); 
@@ -512,7 +512,7 @@ $('#play_btn').unbind('click').click(playTimeline); // also, the amount of time 
 function playTimeline(){
 	var startYear;
 	if (timer == null){
-		if(currentYear == 2010){
+		if(currentYear == 2011){
 			changeYear(2002, true);
 		}
 		else{
@@ -533,7 +533,7 @@ function advanceTimelineYear(){
 	var nextYear = parseInt(currentYear) + 1;
 	changeYear(nextYear, true);	
 	
-	if (nextYear == 2010){
+	if (nextYear == 2011){
 		window.clearInterval(timer);
 		timer = null;
 	};
@@ -622,61 +622,3 @@ d3.json("data/trafficBilledInUS.json", function(d){
 	drawYears(yearArray);
 	drawTimeline(true);
 });
-
-//var finalData={};
-//var finalDataDetail=[];
-//finalData.type="trafficBilledInUS";
-//function processData(data){
-//	var fjson={};
-//	fjson.Year=data.Year;
-//	fjson.WorldTotals=data.WorldTotals.MessageTelephoneServiceDetail.TrafficBilledInUS;
-//	var Regions=[];
-//
-//	data.Regions.forEach(function (d){
-//	    var obj={};
-//	    obj.RegionName=d.RegionName;
-//	    obj.RegionTotals=d.RegionTotals.MessageTelephoneServiceDetail.TrafficBilledInUS;
-//	     var country=[];
-//	    d.TrafficReportDetails.forEach(function(t){
-//	       var obj1={};
-//	       obj1.CountryName=t.CountryName;
-//	       obj1.CountryDetail=t.MessageTelephoneServiceDetail.TrafficBilledInUS;
-//	       country.push(obj1);
-//	    })
-//	    obj.RegionDetail=country;
-//	    Regions.push(obj);
-//	})
-//	fjson.Regions=Regions;
-//	finalDataDetail.push(fjson);
-//	
-//}
-//
-//d3.json("data/2010.json", function(d){
-//	processData(d);
-//	d3.json("data/2009.json", function(d){
-//		processData(d);
-//		d3.json("data/2008.json", function(d){
-//			processData(d);
-//			d3.json("data/2007.json", function(d){
-//				processData(d);
-//				d3.json("data/2006.json", function(d){
-//					processData(d);
-//					d3.json("data/2005.json", function(d){
-//						processData(d);
-//						d3.json("data/2004.json", function(d){
-//							processData(d);
-//							d3.json("data/2003.json", function(d){
-//								processData(d);
-//								d3.json("data/2002.json", function(d){
-//									processData(d);
-//									finalData.details=finalDataDetail;
-//									console.log(finalData);
-//								});
-//							});
-//						});
-//					});
-//				});
-//			});
-//		});
-//	});	
-//});

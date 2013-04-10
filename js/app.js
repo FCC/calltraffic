@@ -599,7 +599,7 @@ function getPropertyNameByType(){
 }
 
 queue()
-    .defer(d3.json, "data/2010.json")
+    .defer(d3.json, "data/2011.json")
     .defer(d3.json, "data/readme-world-110m.json")
     .await(ready);
 
