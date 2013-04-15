@@ -1,0 +1,37 @@
+<!doctype html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  {% if page.layout == 'traffic2011' %}
+  <link rel="stylesheet" href="/css/style.css">
+  {% endif %}
+  {% if page.layout == 'trafficbyyear' %}
+  <link rel="stylesheet" href="/css/style2.css">
+  {% endif %}
+  <!-- end CSS-->
+
+  <script src="/js/libs/modernizr-2.0.6.min.js"></script>
+  </head>
+
+<body>
+<div id="header">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+          <span class="brand"><a title="FCC" href="http://www.fcc.gov"><img src="/img/fcc-logo.jpg" alt="FCC Logo"></a>{{ page.title }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

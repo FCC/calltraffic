@@ -1,0 +1,4 @@
+#build config
+server: true
+auto: true
+markdown: rdiscount

@@ -1,0 +1,46 @@
+{% include header.html %}
+
+<div id="container" class="container-fluid">
+    <div id="main" role="main">
+        <div id="timeline" class="interactive_subheader interactive_timeline">
+            <div id="play_btn" class="play">&nbsp;</div>
+            <div class="scrubber"><img id="scrubber_knob" src="img/map_scrubber.png" alt="scrubber" width="24" height="24" /> 
+                <ul id="scrubber_dates" class="dates">
+                    <li id="t2011" class="first">2011</li>
+                    <li id="t2010">2010</li>
+                    <li id="t2009">2009</li>
+                    <li id="t2008">2008</li>
+                    <li id="t2007">2007</li>
+                    <li id="t2006">2006</li>
+                    <li id="t2005">2005</li>
+                    <li id="t2004">2004</li>
+                    <li id="t2003">2003</li>
+                    <li id="t2002" class="last">2002</li>
+                </ul>
+            </div>
+        </div>
+        <div id="chart">
+            <div id="regionChart">  
+                <div class="title">Regions</div>
+                <div class="title1">Number of Minutes (in 10 Million)</div>
+                <div id="regionMinuteChart"></div>
+                <div class="title1">Number of Messages (in Million)</div>
+                <div id="regionMessageChart"></div>
+                <div class="title1">US Carrier Revenues (in Million $)</div>
+                <div id="regionRevenueChart"></div>
+            </div>
+            
+            <div id="countryChart">
+                <div class="title">Top Ten Countries</div>
+                <div class="title1">Number of Minutes (in 10 Million)</div>
+                <div id="countryMinuteChart"></div>
+                <div class="title1">Number of Messages (in Million)</div>
+                <div id="countryMessageChart"></div>
+                <div class="title1">US Carrier Revenues (in Million $)</div>
+                <div id="countryRevenueChart"></div>
+            </div>
+        </div>
+    </div>
+</div><!--! end of #container -->
+
+{% include footer.html %}
