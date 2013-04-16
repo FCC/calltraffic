@@ -206,11 +206,13 @@ svg {
 }
 
 #regionChart{
-	float:left
+	float:left;
+    margin-left:50px;
 }
 #countryChart{
 	float:right;
 	width:350px;
+    margin-right: -50px;
 }
 
 .title {
