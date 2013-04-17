@@ -32,16 +32,16 @@
         </div>
     </div>
 </div>
-<script>window.jQuery || document.write('<script src="/calltraffic/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
-<script src="/calltraffic/js/CustomTooltip.js"></script>
-<script src="/calltraffic/js/libs/d3.v3.min.js"></script>
-<script src="/calltraffic/js/libs/queue.v1.min.js"></script>
-<script src="/calltraffic/js/libs/topojson.v0.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ site.asset-dir }}/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+<script src="{{ site.asset-dir }}/js/CustomTooltip.js"></script>
+<script src="{{ site.asset-dir }}/js/libs/d3.v3.min.js"></script>
+<script src="{{ site.asset-dir }}/js/libs/queue.v1.min.js"></script>
+<script src="{{ site.asset-dir }}/js/libs/topojson.v0.min.js"></script>
 {% if page.layout == 'traffic2011' %}
-<script src="/calltraffic/js/app.js"></script>
+<script src="{{ site.asset-dir }}/js/app.js"></script>
 {% endif %}
 {% if page.layout == 'trafficbyyear' %}
-<script src="/calltraffic/js/app1.js"></script>
+<script src="{{ site.asset-dir }}/js/app1.js"></script>
 {% endif %}
 
 </body>

@@ -2,3 +2,5 @@
 server: true
 auto: true
 markdown: rdiscount
+
+asset-dir: 
