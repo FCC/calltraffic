@@ -1,4 +1,3 @@
-
 //var fjson={};
 var margin = {top: 5, right: 0, bottom: 0, left: 0};
 var data,regionData=[];
@@ -7,7 +6,7 @@ var currentYear = 2011, // default year
 	timer = null,
 	changeYearDelay= 1200
 	playYearDelay = 2400;
-var margin = {top: 20, right: 40, bottom: 10, left: 200},
+var margin = {top: 20, right: 40, bottom: 10, left: 205},
 	width = 400,
 	height = 200 - margin.top - margin.bottom;
 var regionMinuteMax,regionMessageMax,regionRevenueMax,regionDataMinute,regionDataMessage,regionDataRevenue;
