@@ -151,8 +151,8 @@ svg {
 	float:left
 }
 #countryChart{
-	float:right;
-	width:350px;
+	/*float:right;
+	width:350px;*/
 }
 
 .title {
@@ -166,6 +166,9 @@ svg {
   fill: #aaa;
 }
 
+#countryChart .title, #countryChart .title1 {
+	margin-left: 200px;    
+}
 
 
 

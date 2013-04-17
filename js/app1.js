@@ -7,7 +7,7 @@ var currentYear = 2011, // default year
 	timer = null,
 	changeYearDelay= 1200
 	playYearDelay = 2400;
-var margin = {top: 20, right: 40, bottom: 10, left: 200},
+var margin = {top: 20, right: 40, bottom: 10, left: 205},
 	width = 400,
 	height = 200 - margin.top - margin.bottom;
 var regionMinuteMax,regionMessageMax,regionRevenueMax,regionDataMinute,regionDataMessage,regionDataRevenue;
@@ -68,7 +68,7 @@ var xRevenueCountryAxis = d3.svg.axis()
 var svgMinute = d3.select("#regionMinuteChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 svgMinute.append("g").attr("class", "x axis");
@@ -81,7 +81,7 @@ svgMinute.append("g")
 var svgMessage = d3.select("#regionMessageChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 svgMessage.append("g").attr("class", "x axis");
@@ -94,7 +94,7 @@ svgMessage.append("g")
 var svgRevenue = d3.select("#regionRevenueChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 svgRevenue.append("g").attr("class", "x axis");
@@ -107,7 +107,7 @@ svgRevenue.append("g")
 var svgMinuteCountry = d3.select("#countryMinuteChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 svgMinuteCountry.append("g").attr("class", "x axis");
@@ -120,7 +120,7 @@ svgMinuteCountry.append("g")
 var svgMessageCountry = d3.select("#countryMessageChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 svgMessageCountry.append("g").attr("class", "x axis");
@@ -133,7 +133,7 @@ svgMessageCountry.append("g")
 var svgRevenueCountry = d3.select("#countryRevenueChart").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
-	.style("margin-left", -margin.left + "px")
+	/*.style("margin-left", -margin.left + "px")*/
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 svgRevenueCountry.append("g").attr("class", "x axis");
