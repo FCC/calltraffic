@@ -1,9 +1,9 @@
-# Call Traffic: 2002 to 2011 Phone and Message Service Billed in US
+# Call Traffic: Phone and Message Service Billed in US
 
-These two visualizations depict data from the FCC International Traffic Data Reports, 2002 to 2011. The report makes available data on international message telephone, private line and miscellaneous services between the United States and other countries. 
+These two visualizations depict data from the FCC International Traffic Data Reports, by region for 2011, and a time series showing traffic by year from 2002 to 2011. The report makes available data on international telephone, private line and miscellaneous services between the United States and other countries. 
 
-- To view the animation of traffic by year, [view this gh-page][byyear]
-- To view the animation of traffic by region, [view this gh-page][byregion]
+- View [Traffic by Year][byyear]
+- View [Traffic by Region][byregion]
 
 ## Purpose
 
@@ -26,7 +26,7 @@ We also use bootstrap.css for styling,  and Jekyll for Github Pages generation.
 
 ## Inspiration
 
-The Traffic By Region (bubble chart) was inspired by this [NY Times Chart][nyt] and this [great tutorial][tutorial]. 
+The Traffic By Region (bubble chart) was inspired by this [NY Times Chart][nyt] and this [great tutorial][tutorial] by Jim Vallandingham. 
 
 
 [byyear]:http://fcc.github.io/calltraffic/trafficbyyear.html
