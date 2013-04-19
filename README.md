@@ -15,7 +15,7 @@ Both visualizations are driven by D3.js, the javascript library by Mike Bostock.
 
 ## Data
 
-FCC makes the International Traffic data available by year.  These data are converted to json format and then assembled into a single json file. Data are available in the /data folder.
+FCC makes the Annual International Traffic data available by year.  These data are converted to json format and then assembled into a single json file. Data are available in the /data folder.
 
 **Libraries used**
 - D3.v3 for charting and mapping
