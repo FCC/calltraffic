@@ -394,7 +394,7 @@ function show_details(data,i,element){
     	}
     	else if(data.type=="revenue"){
     		content += "<span class='name'>US Carrier Revenue: $</span><span class='value'>" + addCommas(data.num) + "</span><br/>";
-    		content += "<span class='name'>Payout to Foreigh Carriers: $</span><span class='value'>" + addCommas(data.payout) + "</span><br/>";
+    		content += "<span class='name'>Payout to Foreign Carriers: $</span><span class='value'>" + addCommas(data.payout) + "</span><br/>";
     		content += "<span class='name'>Retained Revenue: $</span><span class='value'>" + addCommas(data.retainedRevenue) + "</span><br/>";
     	}
     }else{
@@ -406,7 +406,7 @@ function show_details(data,i,element){
 		}
 		else if(data.type=="revenue"){
 			content += "<span class='name'>US Carrier Revenue: $</span><span class='value'>" + addCommas(data.num) + "</span><br/>";
-			content += "<span class='name'>Payout to Foreigh Carriers: $</span><span class='value'>" + addCommas(data.payout) + "</span><br/>";
+			content += "<span class='name'>Payout to Foreign Carriers: $</span><span class='value'>" + addCommas(data.payout) + "</span><br/>";
 			content += "<span class='name'>Retained Revenue: $</span><span class='value'>" + addCommas(data.retainedRevenue) + "</span><br/>";
 		}
 		rotateToCounty(data.country);
