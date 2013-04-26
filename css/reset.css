@@ -66,6 +66,22 @@ td { vertical-align: top; }
    Author: 
    ========================================================================== */
 
+.btn-primary {
+  background-color: #3B7DBA;
+  background-image: none;
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+a.btn {
+  color: #ffffff;
+}
+a.btn:hover {
+  background-color: #20599F;
+}
+
+#header .btn {
+  margin-top: 20px;
+}
 
 
 
