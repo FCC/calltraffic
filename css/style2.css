@@ -48,7 +48,11 @@
     float: left;
     line-height: 41px;
 }
-
+.old-browser {
+  background-color: #F7EAAF;
+  font-weight: bold;
+  padding: 10px;
+}
 #footer {
   padding-bottom: 20px;
 }
