@@ -49,8 +49,9 @@
     line-height: 41px;
 }
 .old-browser {
-  background-color: #F7EAAF;
+  background-color: #FACF0D;
   font-weight: bold;
+  margin-bottom: 20px;
   padding: 10px;
 }
 
