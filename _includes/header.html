@@ -23,10 +23,14 @@
   <script src="{{ site.asset-dir }}/js/libs/modernizr-2.0.6.min.js"></script>
   <script>
   var _gaq = _gaq || [];
-_gaq.push(function() {_gat._anonymizeIp();});
-_gaq.push(['_setAccount', 'UA-16888309-1']);
-_gaq.push(['_setDomainName','github.io']);
-_gaq.push(['_trackPageview']); 
+  _gaq.push(['_setAccount', 'UA-16888309-1']);
+  _gaq.push(['_setDomainName','github.io']);
+  _gaq.push(['_addIgnoredRef', 'fcc.gov']);
+  _gaq.push(['_addIgnoredRef', 'dtv.gov']);
+  _gaq.push(['_addIgnoredRef', 'broadband.gov']);
+  _gaq.push(['_gat._anonymizeIp']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']); 
 
  (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
